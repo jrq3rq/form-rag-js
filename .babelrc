@@ -5,9 +5,9 @@
   ],
   "plugins": [
     ["module-resolver", {
-      "root": ["./src"],
+      "extensions": [".js", ".jsx"],
       "alias": {
-        "^.+\\.jsx$": "\\0.js"
+        "\\.jsx$": ".js"
       }
     }]
   ]
