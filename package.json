@@ -1,18 +1,18 @@
 {
   "name": "form-rag-js",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "One AI form. Any small business. Powered by Grok.",
   "main": "dist/index.js",
   "module": "dist/index.js",
   "type": "module",
   "exports": {
-  ".": "./dist/index.js",
-  "./template": "./templates/universal-smb.js"
-    },
-    "files": [
+    ".": "./dist/index.js",
+    "./template": "./templates/universal-smb.js"
+  },
+  "files": [
     "dist",
     "templates"
-    ],
+  ],
   "keywords": [
     "ai",
     "form",
