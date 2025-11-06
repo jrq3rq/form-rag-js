@@ -1,6 +1,6 @@
 {
   "name": "form-rag-js",
-  "version": "1.0.12",
+  "version": "1.0.13",
   "description": "One AI form. Any small business. Powered by Grok.",
   "main": "dist/index.js",
   "module": "dist/index.js",
@@ -25,9 +25,9 @@
     "url": "git+https://github.com/jrq3rq/form-rag-js.git"
   },
   "scripts": {
-  "build": "babel src --out-dir dist --extensions \".js,.jsx\" && cp src/components/FormRAG.jsx dist/components/FormRAG.js",
-  "prepublishOnly": "npm run build"
-    },
+    "build": "babel src --out-dir dist --extensions \".js,.jsx\" && cp src/components/FormRAG.jsx dist/components/FormRAG.js",
+    "prepublishOnly": "npm run build"
+  },
   "devDependencies": {
     "@babel/cli": "^7.25.1",
     "@babel/core": "^7.25.2",
