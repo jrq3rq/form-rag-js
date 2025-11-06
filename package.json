@@ -6,13 +6,13 @@
   "module": "dist/index.js",
   "type": "module",
   "exports": {
-    ".": "./dist/index.js",
-    "./templates/universal-smb": "./templates/universal-smb.js"
-  },
-  "files": [
+  ".": "./dist/index.js",
+  "./template": "./templates/universal-smb.js"
+    },
+    "files": [
     "dist",
     "templates"
-  ],
+    ],
   "keywords": [
     "ai",
     "form",
