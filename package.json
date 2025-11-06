@@ -4,10 +4,9 @@
   "description": "One AI form. Any small business. Powered by Grok.",
   "main": "dist/index.js",
   "module": "dist/index.js",
-  "type": "module",
+  "types": "dist/index.d.ts",
   "exports": {
-    ".": "./dist/index.js",
-    "./template": "./templates/universal-smb.js"
+    ".": "./dist/index.js"
   },
   "files": [
     "dist",
