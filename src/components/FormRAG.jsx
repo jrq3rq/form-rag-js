@@ -1,5 +1,5 @@
 // components/FormRAG.jsx
-import { useState } from "react";
+import React, { useState } from 'react';
 import { constructPrompt } from "../lib/promptEngine.js";
 
 export default function FormRAG({ template, apiKey }) {
