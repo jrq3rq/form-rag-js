@@ -1,9 +1,14 @@
 {
   "name": "form-rag-js",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "One AI form. Any small business. Powered by Grok.",
   "main": "dist/index.js",
+  "module": "dist/index.js",
   "type": "module",
+  "exports": {
+    ".": "./dist/index.js",
+    "./templates/universal-smb": "./templates/universal-smb.js"
+  },
   "files": [
     "dist",
     "templates"
@@ -13,7 +18,8 @@
     "form",
     "rag",
     "grok",
-    "smb"
+    "smb",
+    "react"
   ],
   "author": "jrq3rq",
   "license": "MIT",
@@ -22,13 +28,17 @@
     "url": "git+https://github.com/jrq3rq/form-rag-js.git"
   },
   "scripts": {
-    "build": "babel components lib --out-dir dist --copy-files",
-    "prepublishOnly": "npm run build"
+   "build": "babel src --out-dir dist --extensions \".js,.jsx\" --copy-files",
+   "prepublishOnly": "npm run build"
   },
   "devDependencies": {
-    "@babel/core": "^7.23.0",
-    "@babel/cli": "^7.23.0",
-    "@babel/preset-env": "^7.23.0",
-    "@babel/preset-react": "^7.23.0"
+    "@babel/core": "^7.25.2",
+    "@babel/cli": "^7.25.1",
+    "@babel/preset-env": "^7.25.3",
+    "@babel/preset-react": "^7.24.7"
+  },
+  "peerDependencies": {
+    "react": ">=16.8.0",
+    "react-dom": ">=16.8.0"
   }
 }
