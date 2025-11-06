@@ -2,7 +2,8 @@
 import { useState } from 'react';
 import { constructPrompt } from '../lib/promptEngine.js';
 
-export const FormRAG = ({ template, apiKey }) => {
+// CHANGE: export const → export default
+export default function FormRAG({ template, apiKey }) {
   const [data, setData] = useState({});
   const [result, setResult] = useState('');
   const [loading, setLoading] = useState(false);
@@ -90,7 +91,7 @@ export const FormRAG = ({ template, apiKey }) => {
             background: '#1DA1F2',
             color: 'white',
             border: 'none',
-            borderRadius: '4px',
+            border: '4px',
             cursor: loading ? 'not-allowed' : 'pointer'
           }}
         >
@@ -106,4 +107,4 @@ export const FormRAG = ({ template, apiKey }) => {
       )}
     </div>
   );
-};
+}
