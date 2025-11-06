@@ -1,4 +1,6 @@
-// index.js
-export { default as FormRAG } from "./src/components/FormRAG.jsx";
-export { constructPrompt } from "./src/lib/promptEngine.js";
-export { UniversalSMBTemplate } from "./templates/universal-smb.js";
+// src/index.js
+import FormRAG from "./components/FormRAG.jsx";
+import { constructPrompt } from "./lib/promptEngine.js";
+import { UniversalSMBTemplate } from "../templates/universal-smb.js";
+
+export { FormRAG, constructPrompt, UniversalSMBTemplate };
