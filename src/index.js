@@ -1,5 +1,5 @@
 // src/index.js
-import FormRAG from "./components/FormRAG.jsx";
+import FormRAG from "./components/FormRAG.js";
 import { constructPrompt } from "./lib/promptEngine.js";
 import { UniversalSMBTemplate } from "../../templates/universal-smb.js";
 
