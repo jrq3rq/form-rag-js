@@ -1,6 +1,6 @@
 {
   "name": "form-rag-js",
-  "version": "1.0.11",
+  "version": "1.0.12",
   "description": "One AI form. Any small business. Powered by Grok.",
   "main": "dist/index.js",
   "module": "dist/index.js",
