@@ -1,14 +1,25 @@
 {
   "name": "form-rag-js",
-  "version": "1.0.0",
-  "description": "One AI form for any small business. Powered by Grok.",
-  "main": "index.js",
+  "version": "1.0.1",
+  "description": "One AI form. Any small business. Powered by Grok.",
+  "main": "dist/index.js",
   "type": "module",
-  "keywords": ["ai", "form", "rag", "grok", "smb", "business"],
+  "files": ["dist", "templates"],
+  "keywords": ["ai", "form", "rag", "grok", "smb"],
   "author": "jrq3rq",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/jrq3rq/form-rag-js.git"
+    "url": "git+https://github.com/jrq3rq/form-rag-js.git"
+  },
+  "scripts": {
+    "build": "babel components lib --out-dir dist --copy-files",
+    "prepublishOnly": "npm run build"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.23.0",
+    "@babel/cli": "^7.23.0",
+    "@babel/preset-env": "^7.23.0",
+    "@babel/preset-react": "^7.23.0"
   }
 }
