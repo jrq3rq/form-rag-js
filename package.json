@@ -1,0 +1,14 @@
+{
+  "name": "form-rag-js",
+  "version": "1.0.0",
+  "description": "One AI form for any small business. Powered by Grok.",
+  "main": "index.js",
+  "type": "module",
+  "keywords": ["ai", "form", "rag", "grok", "smb", "business"],
+  "author": "jrq3rq",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jrq3rq/form-rag-js.git"
+  }
+}
