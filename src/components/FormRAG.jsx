@@ -56,7 +56,7 @@ export default function FormRAG({ template, apiKey }) {
 
         .form-rag-wrapper {
           min-height: 100vh;
-          min-height: 100dvh; /* Better mobile support */
+          min-height: 100dvh;
           padding: clamp(1rem, 3vw, 2rem) clamp(0.75rem, 2vw, 1rem);
           background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
           display: flex;
@@ -68,7 +68,7 @@ export default function FormRAG({ template, apiKey }) {
 
         .form-rag-container {
           width: 100%;
-          max-width: 680px;
+          max-width: 100%;
           margin: 0 auto;
           padding: clamp(2rem, 5vw, 2.5rem) clamp(1.5rem, 4vw, 2rem);
           background: white;
@@ -107,12 +107,14 @@ export default function FormRAG({ template, apiKey }) {
         form {
           display: grid;
           gap: clamp(1.5rem, 3vw, 1.75rem);
+          width: 100%;
         }
 
         .field {
           display: flex;
           flex-direction: column;
           gap: 0.6rem;
+          width: 100%;
         }
 
         label {
@@ -125,6 +127,7 @@ export default function FormRAG({ template, apiKey }) {
 
         input,
         select {
+          width: 100%;
           padding: 0.9rem 1.1rem;
           font-size: 1rem;
           border: 2px solid #e2e8f0;
@@ -133,7 +136,6 @@ export default function FormRAG({ template, apiKey }) {
           transition: all 0.25s ease;
           outline: none;
           font-family: inherit;
-          width: 100%;
         }
 
         input::placeholder,
@@ -164,6 +166,7 @@ export default function FormRAG({ template, apiKey }) {
           background: #f8fafc;
           border-radius: 12px;
           border: 1.5px solid #e2e8f0;
+          width: 100%;
         }
 
         .checkbox-item {
@@ -218,7 +221,7 @@ export default function FormRAG({ template, apiKey }) {
           width: 100%;
           height: 100%;
           background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-          transition: left 0.6s ease;
+          transition left 0.6s ease;
         }
 
         button:hover::before {
@@ -261,6 +264,7 @@ export default function FormRAG({ template, apiKey }) {
           border: 1.5px solid #e2e8f0;
           box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
           animation: fadeIn 0.5s ease-out;
+          width: 100%;
         }
 
         @keyframes fadeIn {
@@ -291,6 +295,7 @@ export default function FormRAG({ template, apiKey }) {
           overflow-y: auto;
           scrollbar-width: thin;
           scrollbar-color: #cbd5e1 #f8fafc;
+          width: 100%;
         }
 
         .result pre::-webkit-scrollbar {
