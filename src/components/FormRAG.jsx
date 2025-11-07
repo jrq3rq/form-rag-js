@@ -5,7 +5,7 @@ import './FormRAG.css';
 
 export default function FormRAG({ template, apiKey }) {
   const [data, setData] = useState({});
-  const [messages, setMessages] = useState([]); // { role: 'user' | 'assistant', content: string }
+  const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
   const [selectedBusiness, setSelectedBusiness] = useState('');
@@ -132,10 +132,6 @@ export default function FormRAG({ template, apiKey }) {
     URL.revokeObjectURL(url);
   };
 
-  const clearChat = () => {
-    setMessages([]);
-  };
-
   const fields = template.form(selectedBusiness);
 
   return (
@@ -245,9 +241,6 @@ export default function FormRAG({ template, apiKey }) {
               <div className="footer-actions">
                 <button className="action-btn" onClick={downloadChat}>
                   Download Full Chat
-                </button>
-                <button className="action-btn clear" onClick={clearChat}>
-                  Clear Chat
                 </button>
               </div>
             </div>
