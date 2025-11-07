@@ -1,7 +1,7 @@
 // src/components/FormRAG.jsx
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { constructPrompt } from '../lib/promptEngine.js';
-import './FormRAG.css';  // ← CSS IMPORT (NO <style>)
+import './FormRAG.css';
 
 export default function FormRAG({ template, apiKey }) {
   const [data, setData] = useState({});
@@ -14,6 +14,10 @@ export default function FormRAG({ template, apiKey }) {
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -47,7 +51,7 @@ export default function FormRAG({ template, apiKey }) {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          model: 'grok-3-beta',  // ← LOCKED
+          model: 'grok-3-beta',
           messages: [{ role: 'user', content: prompt }],
           temperature: 0.7,
         }),
@@ -102,12 +106,13 @@ export default function FormRAG({ template, apiKey }) {
       setMessages((prev) => [...prev, { role: 'assistant', content: `Error: ${err.message}` }]);
     } finally {
       setLoading(false);
-      scrollToBottom();
     }
   };
 
   const downloadChat = () => {
-    const text = messages.map(m => `${m.role === 'user' ? 'You' : 'Grok'}: ${m.content}`).join('\n\n');
+    const text = messages
+      .map((m) => `${m.role === 'user' ? 'You' : 'Grok'}: ${m.content}`)
+      .join('\n\n');
     const blob = new Blob([text], { type: 'text/plain' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -125,6 +130,10 @@ export default function FormRAG({ template, apiKey }) {
     a.download = `message_${msg.role}.txt`;
     a.click();
     URL.revokeObjectURL(url);
+  };
+
+  const clearChat = () => {
+    setMessages([]);
   };
 
   const fields = template.form(selectedBusiness);
@@ -198,45 +207,51 @@ export default function FormRAG({ template, apiKey }) {
 
         {/* CHAT */}
         {messages.length > 0 && (
-          <>
-            <div className="chat-container">
+          <div className="chat-section">
+            <div className="chat-messages">
               {messages.map((msg, i) => (
                 <div
                   key={i}
                   className={`message ${msg.role}`}
-                  style={{
-                    alignSelf: msg.role === 'user' ? 'flex-end' : 'flex-start',
-                  }}
                 >
-                  <div className="message-actions">
-                    <button className="download-btn" onClick={() => downloadMessage(msg)}>
-                      Download
-                    </button>
-                  </div>
-                  <pre style={{ margin: 0, whiteSpace: 'pre-wrap' }}>{msg.content}</pre>
+                  <pre className="message-content">{msg.content}</pre>
+                  <button
+                    className="download-btn"
+                    onClick={() => downloadMessage(msg)}
+                    aria-label="Download message"
+                  >
+                    Download
+                  </button>
                 </div>
               ))}
               <div ref={messagesEndRef} />
             </div>
 
-            <div className="chat-input">
-              <input
-                type="text"
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                onKeyDown={(e) => e.key === 'Enter' && sendMessage()}
-                placeholder="Type your message..."
-                disabled={loading}
-              />
-              <button onClick={sendMessage} disabled={loading}>
-                {loading ? 'Sending…' : 'Send'}
-              </button>
-            </div>
+            <div className="chat-footer">
+              <div className="chat-input">
+                <input
+                  type="text"
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                  onKeyDown={(e) => e.key === 'Enter' && !e.shiftKey && sendMessage()}
+                  placeholder="Type your message..."
+                  disabled={loading}
+                />
+                <button onClick={sendMessage} disabled={loading}>
+                  {loading ? 'Sending…' : 'Send'}
+                </button>
+              </div>
 
-            <button className="download-all" onClick={downloadChat}>
-              Download Full Chat
-            </button>
-          </>
+              <div className="footer-actions">
+                <button className="action-btn" onClick={downloadChat}>
+                  Download Full Chat
+                </button>
+                <button className="action-btn clear" onClick={clearChat}>
+                  Clear Chat
+                </button>
+              </div>
+            </div>
+          </div>
         )}
       </div>
     </div>
