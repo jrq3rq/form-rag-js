@@ -6,9 +6,11 @@ export default function FormRAG({ template, apiKey }) {
   const [data, setData] = useState({});
   const [result, setResult] = useState('');
   const [loading, setLoading] = useState(false);
+  const [selectedBusiness, setSelectedBusiness] = useState('');
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
+
     if (type === 'checkbox') {
       const arr = data[name] || [];
       setData((prev) => ({
@@ -16,7 +18,16 @@ export default function FormRAG({ template, apiKey }) {
         [name]: checked ? [...arr, value] : arr.filter((v) => v !== value),
       }));
     } else {
-      setData((prev) => ({ ...prev, [name]: value }));
+      const newData = { ...data, [name]: value };
+
+      if (name === 'businessType') {
+        setSelectedBusiness(value);
+        // Reset dependent fields
+        const { businessType, ...rest } = newData;
+        setData({ businessType: value });
+      } else {
+        setData(newData);
+      }
     }
   };
 
@@ -46,6 +57,8 @@ export default function FormRAG({ template, apiKey }) {
       setLoading(false);
     }
   };
+
+  const fields = template.form(selectedBusiness);
 
   return (
     <div className="form-rag-wrapper">
@@ -291,14 +304,14 @@ export default function FormRAG({ template, apiKey }) {
       <div className="form-rag-container">
         <h2>{template.name}</h2>
         <form onSubmit={submit}>
-          {template.form.map((field) => (
+          {fields.map((field) => (
             <div key={field.id} className="field">
               <label>{field.label}</label>
 
-              {/* SELECT */}
               {field.type === 'select' ? (
                 <select
                   name={field.id}
+                  value={data[field.id] || ''}
                   onChange={handleChange}
                   required={field.required}
                 >
@@ -310,7 +323,6 @@ export default function FormRAG({ template, apiKey }) {
                   ))}
                 </select>
               ) : field.type === 'multi' ? (
-                /* CHECKBOX GROUP */
                 <div className="checkbox-group">
                   {field.options.map((opt) => (
                     <label key={opt.value} className="checkbox-item">
@@ -318,6 +330,7 @@ export default function FormRAG({ template, apiKey }) {
                         type="checkbox"
                         name={field.id}
                         value={opt.value}
+                        checked={(data[field.id] || []).includes(opt.value)}
                         onChange={handleChange}
                       />
                       {opt.label}
@@ -325,10 +338,10 @@ export default function FormRAG({ template, apiKey }) {
                   ))}
                 </div>
               ) : (
-                /* TEXT / NUMBER */
                 <input
                   type={field.type}
                   name={field.id}
+                  value={data[field.id] || ''}
                   placeholder={field.placeholder ?? ''}
                   onChange={handleChange}
                   required={field.required}
