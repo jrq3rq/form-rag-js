@@ -7,6 +7,7 @@ export default function FormRAG({ template, apiKey }) {
   const [result, setResult] = useState('');
   const [loading, setLoading] = useState(false);
   const [selectedBusiness, setSelectedBusiness] = useState('');
+  const [wantsReply, setWantsReply] = useState(false);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -22,8 +23,6 @@ export default function FormRAG({ template, apiKey }) {
 
       if (name === 'businessType') {
         setSelectedBusiness(value);
-        // Reset dependent fields
-        const { businessType, ...rest } = newData;
         setData({ businessType: value });
       } else {
         setData(newData);
@@ -44,21 +43,32 @@ export default function FormRAG({ template, apiKey }) {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          model: 'grok-3-beta',  // Active model — try this first
+          model: 'grok-beta',
           messages: [{ role: 'user', content: prompt }],
           temperature: 0.7,
         }),
       });
 
-      if (!res.ok) throw new Error(`HTTP ${res.status}: ${res.statusText}`);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
 
       const json = await res.json();
-      setResult(json.choices?.[0]?.message?.content ?? 'No response');
+      const rawResponse = json.choices?.[0]?.message?.content ?? 'No response';
+
+      const wantsReply = /Reply YES to confirm/i.test(rawResponse);
+      const cleanResponse = rawResponse.replace(/Reply YES to confirm\.?$/i, '').trim();
+
+      setResult(cleanResponse);
+      setWantsReply(wantsReply);
     } catch (err) {
-      setResult(`Error: ${err.message}. Check key or endpoint.`);
+      setResult(`Error: ${err.message}`);
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleReply = () => {
+    setResult((prev) => `${prev}\n\n**YES — Confirmed!** I'll follow up with next steps.`);
+    setWantsReply(false);
   };
 
   const fields = template.form(selectedBusiness);
@@ -91,6 +101,21 @@ export default function FormRAG({ template, apiKey }) {
           transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
           animation: fadeInUp 0.6s ease-out forwards;
         }
+
+        .reply-btn {
+          margin-top: 1rem;
+          padding: 0.75rem 1.5rem;
+          font-size: 1rem;
+          font-weight: 600;
+          color: white;
+          background: #10b981;
+          border: none;
+          border-radius: 12px;
+          cursor: pointer;
+          transition: all 0.2s ease;
+          box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+        }
+        .reply-btn:hover { background: #059669; transform: translateY(-2px); }
 
         @keyframes fadeInUp {
           from { opacity: 0; transform: translateY(20px); }
@@ -369,6 +394,11 @@ export default function FormRAG({ template, apiKey }) {
           <div className="result">
             <h3>Result:</h3>
             <pre>{result}</pre>
+            {wantsReply && (
+              <button onClick={handleReply} className="reply-btn">
+                Reply YES
+              </button>
+            )}
           </div>
         )}
       </div>
