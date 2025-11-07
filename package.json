@@ -25,9 +25,9 @@
     "url": "git+https://github.com/jrq3rq/form-rag-js.git"
   },
   "scripts": {
-    "build": "babel src --out-dir dist --extensions \".js,.jsx\" --presets @babel/preset-react --copy-files",
+    "build": "babel src --out-dir dist --extensions \".js,.jsx\" --presets @babel/preset-react && cp src/components/FormRAG.jsx dist/components/FormRAG.jsx",
     "prepublishOnly": "npm run build"
-  },
+},
   "devDependencies": {
     "@babel/cli": "^7.25.1",
     "@babel/core": "^7.25.2",
