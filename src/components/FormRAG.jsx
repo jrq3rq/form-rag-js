@@ -65,7 +65,7 @@ const submit = async (e) => {
 
   return (
     <div className="form-rag-wrapper">
-      <style jsx>{`
+      <style>{`
         * { box-sizing: border-box; }
 
         .form-rag-wrapper {
