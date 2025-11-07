@@ -31,7 +31,7 @@ export default function FormRAG({ template, apiKey }) {
     }
   };
 
-const submit = async (e) => {
+  const submit = async (e) => {
     e.preventDefault();
     setLoading(true);
     const prompt = constructPrompt(data, template);
@@ -44,18 +44,18 @@ const submit = async (e) => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          model: 'grok-1',  // ← FIXED
+          model: 'grok-3-beta',  // Active model — try this first
           messages: [{ role: 'user', content: prompt }],
           temperature: 0.7,
         }),
       });
 
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      if (!res.ok) throw new Error(`HTTP ${res.status}: ${res.statusText}`);
 
       const json = await res.json();
       setResult(json.choices?.[0]?.message?.content ?? 'No response');
     } catch (err) {
-      setResult(`Error: ${err.message}`);
+      setResult(`Error: ${err.message}. Check key or endpoint.`);
     } finally {
       setLoading(false);
     }
