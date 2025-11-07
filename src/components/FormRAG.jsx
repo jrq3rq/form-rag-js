@@ -50,9 +50,7 @@ export default function FormRAG({ template, apiKey }) {
   return (
     <div className="form-rag-wrapper">
       <style jsx>{`
-        * {
-          box-sizing: border-box;
-        }
+        * { box-sizing: border-box; }
 
         .form-rag-wrapper {
           min-height: 100vh;
@@ -73,22 +71,14 @@ export default function FormRAG({ template, apiKey }) {
           padding: clamp(2rem, 5vw, 2.5rem) clamp(1.5rem, 4vw, 2rem);
           background: white;
           border-radius: 20px;
-          box-shadow:
-            0 20px 40px rgba(0, 0, 0, 0.08),
-            0 8px 16px rgba(0, 0, 0, 0.06);
+          box-shadow: 0 20px 40px rgba(0,0,0,0.08), 0 8px 16px rgba(0,0,0,0.06);
           transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
           animation: fadeInUp 0.6s ease-out forwards;
         }
 
         @keyframes fadeInUp {
-          from {
-            opacity: 0;
-            transform: translateY(20px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
+          from { opacity: 0; transform: translateY(20px); }
+          to { opacity: 1; transform: translateY(0); }
         }
 
         h2 {
@@ -125,8 +115,7 @@ export default function FormRAG({ template, apiKey }) {
           user-select: none;
         }
 
-        input,
-        select {
+        input, select {
           width: 100%;
           padding: 0.9rem 1.1rem;
           font-size: 1rem;
@@ -138,15 +127,11 @@ export default function FormRAG({ template, apiKey }) {
           font-family: inherit;
         }
 
-        input::placeholder,
-        select::placeholder {
-          color: #94a3b8;
-        }
+        input::placeholder, select::placeholder { color: #94a3b8; }
 
-        input:focus,
-        select:focus {
+        input:focus, select:focus {
           border-color: #1da1f2;
-          box-shadow: 0 0 0 4px rgba(29, 161, 242, 0.15);
+          box-shadow: 0 0 0 4px rgba(29,161,242,0.15);
           transform: translateY(-1px);
         }
 
@@ -180,9 +165,7 @@ export default function FormRAG({ template, apiKey }) {
           transition: color 0.2s ease;
         }
 
-        .checkbox-item:hover {
-          color: #1e293b;
-        }
+        .checkbox-item:hover { color: #1e293b; }
 
         .checkbox-item input[type='checkbox'] {
           width: 1.35rem;
@@ -203,7 +186,7 @@ export default function FormRAG({ template, apiKey }) {
           border-radius: 14px;
           cursor: pointer;
           transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-          box-shadow: 0 6px 20px rgba(29, 161, 242, 0.3);
+          box-shadow: 0 6px 20px rgba(29,161,242,0.3);
           width: 100%;
           position: relative;
           overflow: hidden;
@@ -221,27 +204,13 @@ export default function FormRAG({ template, apiKey }) {
           width: 100%;
           height: 100%;
           background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-          transition left 0.6s ease;
+          transition: left 0.6s ease;
         }
 
-        button:hover::before {
-          left: 100%;
-        }
-
-        button:hover:not(:disabled) {
-          transform: translateY(-3px);
-          box-shadow: 0 10px 25px rgba(29, 161, 242, 0.4);
-        }
-
-        button:active:not(:disabled) {
-          transform: translateY(-1px);
-        }
-
-        button:disabled {
-          opacity: 0.7;
-          cursor: not-allowed;
-          transform: none;
-        }
+        button:hover::before { left: 100%; }
+        button:hover:not(:disabled) { transform: translateY(-3px); box-shadow: 0 10px 25px rgba(29,161,242,0.4); }
+        button:active:not(:disabled) { transform: translateY(-1px); }
+        button:disabled { opacity: 0.7; cursor: not-allowed; transform: none; }
 
         .spinner {
           width: 1.1em;
@@ -252,9 +221,7 @@ export default function FormRAG({ template, apiKey }) {
           animation: spin 0.8s linear infinite;
         }
 
-        @keyframes spin {
-          to { transform: rotate(360deg); }
-        }
+        @keyframes spin { to { transform: rotate(360deg); } }
 
         .result {
           margin-top: 2.5rem;
@@ -262,15 +229,12 @@ export default function FormRAG({ template, apiKey }) {
           background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
           border-radius: 16px;
           border: 1.5px solid #e2e8f0;
-          box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+          box-shadow: 0 8px 24px rgba(0,0,0,0.06);
           animation: fadeIn 0.5s ease-out;
           width: 100%;
         }
 
-        @keyframes fadeIn {
-          from { opacity: 0; }
-          to { opacity: 1; }
-        }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
         .result h3 {
           margin: 0 0 1.25rem;
@@ -298,53 +262,21 @@ export default function FormRAG({ template, apiKey }) {
           width: 100%;
         }
 
-        .result pre::-webkit-scrollbar {
-          width: 8px;
-        }
+        .result pre::-webkit-scrollbar { width: 8px; }
+        .result pre::-webkit-scrollbar-track { background: #f8fafc; border-radius: 4px; }
+        .result pre::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        .result pre::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
 
-        .result pre::-webkit-scrollbar-track {
-          background: #f8fafc;
-          border-radius: 4px;
-        }
-
-        .result pre::-webkit-scrollbar-thumb {
-          background: #cbd5e1;
-          border-radius: 4px;
-        }
-
-        .result pre::-webkit-scrollbar-thumb:hover {
-          background: #94a3b8;
-        }
-
-        /* Responsive Enhancements */
         @media (max-width: 768px) {
-          .form-rag-wrapper {
-            padding: 1.5rem 1rem;
-          }
-
-          .form-rag-container {
-            padding: 2rem 1.5rem;
-            border-radius: 16px;
-          }
+          .form-rag-wrapper { padding: 1.5rem 1rem; }
+          .form-rag-container { padding: 2rem 1.5rem; border-radius: 16px; }
         }
 
         @media (max-width: 480px) {
-          .form-rag-wrapper {
-            padding: 1rem 0.75rem;
-          }
-
-          .form-rag-container {
-            padding: 1.75rem 1.25rem;
-            border-radius: 14px;
-          }
-
-          .checkbox-group {
-            padding: 0.6rem;
-          }
-
-          .checkbox-item {
-            font-size: 0.9rem;
-          }
+          .form-rag-wrapper { padding: 1rem 0.75rem; }
+          .form-rag-container { padding: 1.75rem 1.25rem; border-radius: 14px; }
+          .checkbox-group { padding: 0.6rem; }
+          .checkbox-item { font-size: 0.9rem; }
         }
 
         @media (prefers-reduced-motion: reduce) {
@@ -363,8 +295,13 @@ export default function FormRAG({ template, apiKey }) {
             <div key={field.id} className="field">
               <label>{field.label}</label>
 
+              {/* SELECT */}
               {field.type === 'select' ? (
-                <select name={field.id} onChange={handleChange} required>
+                <select
+                  name={field.id}
+                  onChange={handleChange}
+                  required={field.required}
+                >
                   <option value="">-- Choose --</option>
                   {field.options.map((opt) => (
                     <option key={opt.value} value={opt.value}>
@@ -373,6 +310,7 @@ export default function FormRAG({ template, apiKey }) {
                   ))}
                 </select>
               ) : field.type === 'multi' ? (
+                /* CHECKBOX GROUP */
                 <div className="checkbox-group">
                   {field.options.map((opt) => (
                     <label key={opt.value} className="checkbox-item">
@@ -387,12 +325,13 @@ export default function FormRAG({ template, apiKey }) {
                   ))}
                 </div>
               ) : (
+                /* TEXT / NUMBER */
                 <input
                   type={field.type}
                   name={field.id}
                   placeholder={field.placeholder ?? ''}
                   onChange={handleChange}
-                  required
+                  required={field.required}
                 />
               )}
             </div>

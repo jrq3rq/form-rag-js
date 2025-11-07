@@ -4,10 +4,13 @@ export const constructPrompt = (formData, template) => {
     ? template.prompt(formData)
     : template.prompt;
 
+  // Only add rules if field has value
   if (template.rules && typeof template.rules === "object") {
     const selected = [];
 
     Object.entries(formData).forEach(([fieldId, value]) => {
+      if (!value || value === '') return; // ← SKIP BLANK
+
       const rule = template.rules[fieldId];
       if (!rule) return;
 

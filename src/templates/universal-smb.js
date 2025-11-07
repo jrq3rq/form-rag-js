@@ -6,6 +6,7 @@ export const UniversalSMBTemplate = {
       id: "businessType",
       type: "select",
       label: "Your Business Type",
+      required: true, // ← REQUIRED
       options: [
         { value: "landscaper", label: "Landscaper & Lawn Care" },
         { value: "cleaning", label: "Professional Cleaning" },
@@ -16,7 +17,12 @@ export const UniversalSMBTemplate = {
         { value: "realestate", label: "Real Estate Agent" },
       ],
     },
-    { id: "service", type: "text", label: "Main Service (e.g. Mowing, Deep Clean)" },
+    {
+      id: "service",
+      type: "text",
+      label: "Main Service (e.g. Mowing, Deep Clean)",
+      required: true, // ← REQUIRED
+    },
     { id: "size", type: "number", label: "Size/Units (sq ft, rooms, pages, etc)" },
     {
       id: "urgency",
@@ -35,15 +41,17 @@ export const UniversalSMBTemplate = {
     const name = data.customerName || "Customer";
     const base = data.size && data.pricePerUnit
       ? `Base: $${(data.size * data.pricePerUnit).toFixed(2)}`
+      : data.size
+      ? `Size: ${data.size} — pricing TBD`
       : "Custom pricing";
 
     return `You are ${data.businessType} AI assistant.
 Customer: ${name}
 Service: ${data.service}
-Size: ${data.size || "N/A"}
-Urgency: ${data.urgency}
+${data.size ? `Size: ${data.size}` : ''}
+${data.urgency ? `Urgency: ${data.urgency === 'asap' ? 'ASAP (+20%)' : 'Next Week'}` : ''}
 ${base}
-Upsell: ${data.upsell || "None"}
+${data.upsell ? `Upsell: ${data.upsell}` : ''}
 Generate a friendly quote/booking. End with: Reply YES to confirm.`;
   },
   rules: {
