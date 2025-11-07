@@ -1,5 +1,5 @@
 // src/index.js
-import FormRAG from "./components/FormRAG.jsx";  // ← ADD THIS
+import FormRAG from "./components/FormRAG.jsx";  // ← CRITICAL
 import { constructPrompt } from "./lib/promptEngine.js";
 
 // Templates
@@ -14,7 +14,7 @@ import { RealEstateTemplate } from "./templates/realestate.js";
 
 // EXPORT EVERYTHING
 export {
-  FormRAG,
+  FormRAG,                    // ← NOW EXPORTED
   constructPrompt,
   UniversalSMBTemplate,
   LandscaperTemplate,
