@@ -183,6 +183,86 @@ select {
   border-color: #1da1f2;
 }
 
+/* Submit Button – "Start with Grok" */
+button[type="submit"] {
+  margin-top: 1.5rem;
+  padding: clamp(0.9rem, 2vw, 1rem) clamp(1.5rem, 3vw, 2rem);
+  font-size: clamp(1rem, 2.5vw, 1.1rem);
+  font-weight: 600;
+  color: white;
+  background: linear-gradient(135deg, #1da1f2 0%, #0d8bd9 100%);
+  border: none;
+  border-radius: 14px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 6px 20px rgba(29, 161, 242, 0.3);
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+button[type="submit"]:hover:not(:disabled) {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(29, 161, 242, 0.4);
+}
+
+button[type="submit"]:active:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+button[type="submit"]:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Spinner inside button */
+button[type="submit"] .spinner {
+  width: 1.1em;
+  height: 1.1em;
+  border: 2px solid #ffffff40;
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+/* Individual Message Download Button */
+.message .download-btn {
+  position: absolute;
+  top: -12px;
+  right: -12px;
+  background: rgba(0, 0, 0, 0.1);
+  color: #333;
+  border: none;
+  border-radius: 8px;
+  padding: 4px 8px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  z-index: 10;
+}
+
+.message:hover .download-btn {
+  opacity: 1;
+}
+
+.message .download-btn:hover {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+/* Spinner animation */
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 /* ─────── MESSAGE STYLES (unchanged) ─────── */
 .message {
   max-width: 80%;
