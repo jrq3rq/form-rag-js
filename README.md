@@ -231,7 +231,7 @@ function App() {
 ---
 
 **form-rag-js**
-© 2025 [StudioVoice2Fly](https://studiovoice2fly.com) — Open Source under [MIT License](./LICENSE)
+© 2025 [StudioVoice2Fly](https://studiovoice2fly.com) — Built by StudioVoice2Fly • AI strategy & custom tools • [MIT License](./LICENSE)
 
 ---
 
