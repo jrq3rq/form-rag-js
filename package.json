@@ -27,7 +27,8 @@
   },
   "scripts": {
     "build": "babel src --out-dir dist --extensions \".js,.jsx\" --presets @babel/preset-react --copy-files && cp src/components/FormRAG.css dist/components/FormRAG.css",
-    "prepublishOnly": "npm run build"
+    "prepublishOnly": "npm run build",
+    "release": "npm run build && git add . && git commit -m \"feat(pro): add RealEstatePro + export + comps API + clean markdown\" && npm version patch -m \"Release v%s\" && git push && git push --tags && npm publish"
   },
   "devDependencies": {
     "@babel/cli": "^7.25.1",
