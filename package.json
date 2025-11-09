@@ -5,7 +5,8 @@
   "main": "dist/index.js",
   "module": "dist/index.js",
   "exports": {
-    ".": "./dist/index.js"
+    ".": "./dist/index.js",
+    "./templates/pro": "./dist/templates/pro/index.js"
   },
   "files": [
     "dist"
