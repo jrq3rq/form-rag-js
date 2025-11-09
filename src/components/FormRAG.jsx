@@ -1,6 +1,7 @@
 // src/components/FormRAG.jsx
 import React, { useState, useRef, useEffect } from 'react';
 import { constructPrompt } from '../lib/promptEngine.js';
+import { stripMarkdown } from '../lib/stripMarkdown.js';
 import './FormRAG.css';
 
 export default function FormRAG({ template, apiKey }) {
@@ -59,7 +60,8 @@ export default function FormRAG({ template, apiKey }) {
 
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const json = await res.json();
-      const response = json.choices?.[0]?.message?.content ?? 'No response';
+      const rawResponse = json.choices?.[0]?.message?.content ?? 'No response';
+      const response = stripMarkdown(rawResponse);
 
       // Build full conversation before state update
       const userMsg = { role: 'user', content: prompt };
@@ -108,7 +110,8 @@ export default function FormRAG({ template, apiKey }) {
 
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const json = await res.json();
-      const response = json.choices?.[0]?.message?.content ?? 'No response';
+      const rawResponse = json.choices?.[0]?.message?.content ?? 'No response';
+      const response = stripMarkdown(rawResponse);
 
       setMessages((prev) => [...prev, { role: 'assistant', content: response }]);
     } catch (err) {
@@ -120,7 +123,7 @@ export default function FormRAG({ template, apiKey }) {
 
   const downloadChat = () => {
     const text = messages
-      .map((m) => `${m.role === 'user' ? 'You' : 'Grok'}: ${m.content}`)
+      .map((m) => `${m.role === 'user' ? 'You' : 'Grok'}: ${m.content}`) // Already clean
       .join('\n\n');
     const blob = new Blob([text], { type: 'text/plain' });
     const url = URL.createObjectURL(blob);
@@ -132,7 +135,7 @@ export default function FormRAG({ template, apiKey }) {
   };
 
   const downloadMessage = (msg) => {
-    const blob = new Blob([msg.content], { type: 'text/plain' });
+    const blob = new Blob([msg.content], { type: 'text/plain' }); // Already clean
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
