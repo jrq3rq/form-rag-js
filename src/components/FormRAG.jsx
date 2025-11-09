@@ -58,15 +58,25 @@ export default function FormRAG({ template, apiKey }) {
       });
 
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
-
       const json = await res.json();
       const response = json.choices?.[0]?.message?.content ?? 'No response';
 
-      setMessages((prev) => [
-        ...prev,
-        { role: 'user', content: prompt },
-        { role: 'assistant', content: response },
-      ]);
+      // Build full conversation before state update
+      const userMsg = { role: 'user', content: prompt };
+      const assistantMsg = { role: 'assistant', content: response };
+      const fullMessages = [...messages, userMsg, assistantMsg];
+
+      // Update UI
+      setMessages(fullMessages);
+
+      // Auto-export lead if template supports it
+      if (template.exportLead) {
+        const lead = template.exportLead(data, fullMessages);
+        const filename = `${(data.name || 'lead').replace(/\s+/g, '_')}_realestate_pro.json`;
+        import('../lib/utils/download.js').then(({ downloadJSON }) => {
+          downloadJSON(lead, filename);
+        });
+      }
     } catch (err) {
       setMessages((prev) => [...prev, { role: 'assistant', content: `Error: ${err.message}` }]);
     } finally {
@@ -97,7 +107,6 @@ export default function FormRAG({ template, apiKey }) {
       });
 
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
-
       const json = await res.json();
       const response = json.choices?.[0]?.message?.content ?? 'No response';
 
@@ -132,7 +141,10 @@ export default function FormRAG({ template, apiKey }) {
     URL.revokeObjectURL(url);
   };
 
-  const fields = template.form(selectedBusiness);
+  // SAFE: supports both `form()` and `form(selectedBusiness)`
+  const fields = typeof template.form === 'function'
+    ? template.form(selectedBusiness)
+    : template.form;
 
   return (
     <div className="form-rag-wrapper">
