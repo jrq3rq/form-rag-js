@@ -1,21 +1,12 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>form-rag-js Demo</title>
+  <title>form-rag-js 2.0 Demo</title>
+  <p style="font-family: system-ui; max-width: 40rem; margin: 1rem auto;">
+    Run a local app that imports <code>form-rag-js</code> and proxies chat via <code>complete</code>.
+    Do not embed API keys in static HTML.
+  </p>
 </head>
-<body>
-  <div id="app"></div>
-  <script type="module">
-    import React from 'https://cdn.skypack.dev/react';
-    import ReactDOM from 'https://cdn.skypack.dev/react-dom';
-    import { FormRAG } from 'https://cdn.skypack.dev/form-rag-js/components/FormRAG.jsx';
-    import { UniversalSMBTemplate } from 'https://cdn.skypack.dev/form-rag-js/templates/universal-smb.js';
-
-    ReactDOM.render(
-      <FormRAG template={UniversalSMBTemplate} apiKey="gsk_your_key_here" />,
-      document.getElementById('app')
-    );
-  </script>
-</body>
+<body></body>
 </html>

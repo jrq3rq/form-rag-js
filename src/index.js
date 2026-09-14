@@ -1,8 +1,9 @@
 // src/index.js
 import FormRAG from "./components/FormRAG.js";
 import { constructPrompt } from "./lib/promptEngine.js";
+import { createXaiComplete } from "./lib/chatClient.js";
+import { formatFormSummary } from "./lib/formatFormSummary.js";
 
-// Templates
 import { UniversalSMBTemplate } from "./templates/universal-smb.js";
 import { LandscaperTemplate } from "./templates/landscaper.js";
 import { CleaningTemplate } from "./templates/cleaning.js";
@@ -12,10 +13,11 @@ import { AuthorTemplate } from "./templates/author.js";
 import { ArtistTemplate } from "./templates/artist.js";
 import { RealEstateTemplate } from "./templates/realestate.js";
 
-// EXPORT EVERYTHING
 export {
   FormRAG,
   constructPrompt,
+  createXaiComplete,
+  formatFormSummary,
   UniversalSMBTemplate,
   LandscaperTemplate,
   CleaningTemplate,

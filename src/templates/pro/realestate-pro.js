@@ -1,37 +1,55 @@
-// src/templates/pro/realestate-pro.js
 import { fetchComps } from '../../lib/compsAPI.js';
+import { themes } from '../shared/themes.js';
 
 export const RealEstateProTemplate = {
-  name: 'Astra – AI Real Estate Concierge',
+  name: 'Astra Concierge',
+  icon: '🏙️',
+  tagline: 'Luxury-ready real estate AI',
+  description:
+    'Buyer or seller flow with live comp context, qualification, and a clear handoff to your agent.',
+  highlights: ['Mini-CMA', 'Lead export', 'Priority hot leads'],
+  theme: themes.luxury,
+  assistantName: 'Astra',
+  submitLabel: 'Start my consultation',
 
   form: () => [
-    { id: 'name', type: 'text', label: 'Your Name', required: true, placeholder: 'Jane Doe' },
+    { id: 'sec_contact', type: 'section', label: 'Contact' },
+    { id: 'name', type: 'text', label: 'Full name', required: true, placeholder: 'Jane Doe' },
     { id: 'email', type: 'email', label: 'Email', required: true, placeholder: 'jane@example.com' },
     { id: 'phone', type: 'tel', label: 'Phone (optional)', placeholder: '(555) 123-4567' },
+    { id: 'sec_deal', type: 'section', label: 'Your move' },
     {
       id: 'role',
       type: 'select',
-      label: 'Are you...',
+      label: 'I am…',
       required: true,
       options: [
-        { value: 'buyer', label: 'Looking to Buy' },
-        { value: 'seller', label: 'Selling My Home' },
+        { value: 'buyer', label: 'Buying a home' },
+        { value: 'seller', label: 'Selling my home' },
       ],
     },
     {
       id: 'propertyType',
       type: 'select',
-      label: 'Property Type',
+      label: 'Property type',
       required: true,
       options: [
-        { value: 'house', label: 'House' },
+        { value: 'house', label: 'Single-family' },
         { value: 'condo', label: 'Condo' },
         { value: 'townhouse', label: 'Townhouse' },
-        { value: 'multifamily', label: 'Multi-Family' },
+        { value: 'multifamily', label: 'Multi-family' },
       ],
     },
-    { id: 'zip', type: 'text', label: 'ZIP Code', required: true, placeholder: '90210' },
-    { id: 'budget', type: 'number', label: 'Budget / Target Price ($)', placeholder: '750000', min: 0, step: 10000 },
+    { id: 'zip', type: 'text', label: 'ZIP code', required: true, placeholder: '90210' },
+    {
+      id: 'budget',
+      type: 'number',
+      label: 'Budget / target price ($)',
+      placeholder: '750000',
+      min: 0,
+      step: 10000,
+      hint: 'Used for comp matching — a range is fine.',
+    },
     {
       id: 'timeline',
       type: 'select',
@@ -48,32 +66,51 @@ export const RealEstateProTemplate = {
 
   prompt: async (data) => {
     const comps = await fetchComps(data.zip, data.propertyType, data.budget);
-    const marketTip = data.budget > 1_500_000 ? 'Luxury market: consider private listings.' : '';
+    const marketTip =
+      data.budget > 1_500_000 ? 'Luxury market: mention private listings and discretion.' : '';
+    const compBlock = comps
+      .map(
+        (c) =>
+          `- ${c.address}: $${c.price.toLocaleString()} (${c.beds}bd/${c.baths}ba, ${c.sqft} sqft, sold ${c.daysAgo}d ago)`,
+      )
+      .join('\n');
 
     return `
-You are **Astra**, AI concierge for **Sarah Johnson**, top realtor in ${data.zip}.
-Client: ${data.name} (${data.email}${data.phone ? `, ${data.phone}` : ''})
-Goal: ${data.role === 'buyer' ? 'Buying' : 'Selling'} a ${data.propertyType}
-Budget: $${data.budget?.toLocaleString() || 'Flexible'}
-Timeline: ${data.timeline}
+You are Astra, AI concierge for Sarah Johnson, top-producing realtor in ZIP ${data.zip}.
 
-**Step 1: Qualify Lead** (max 3 questions)
-**Step 2: Mini-CMA**
-${comps.map(c => `- ${c.address}: $${c.price.toLocaleString()} (${c.beds}bd/${c.baths}ba, ${c.sqft} sqft, ${c.daysAgo} days ago)`).join('\n')}
+VOICE: Polished, warm, never pushy. Plain text only — no markdown.
 
-**Step 3: Next Step**
-${data.role === 'buyer' ? 'Suggest 2–3 matching listings or schedule viewing.' : 'Recommend pricing strategy and staging tips.'}
+CLIENT
+- Name: ${data.name}
+- Email: ${data.email}${data.phone ? ` | Phone: ${data.phone}` : ''}
+- Goal: ${data.role === 'buyer' ? 'Purchase' : 'Sale'} — ${data.propertyType}
+- Budget / target: ${data.budget ? `$${Number(data.budget).toLocaleString()}` : 'Flexible'}
+- Timeline: ${data.timeline}
+
+RESPONSE STRUCTURE
+1. Personal greeting using their name
+2. Up to 3 smart qualifying questions (only if gaps remain)
+3. Mini-CMA using these comps (cite addresses):
+${compBlock}
+4. ${data.role === 'buyer' ? 'Suggest 2–3 property profiles to hunt for (not fake addresses)' : 'Pricing strategy + staging tips'}
+5. Clear CTA to connect with Sarah for full CMA / private tour
+
 ${marketTip}
 
-**Reply YES to connect with Sarah now and get your full CMA + private tour.**
+If timeline is ASAP, note priority follow-up within 1 hour.
+
+Close with: Reply YES to connect with Sarah now.
 `.trim();
   },
 
   rules: {
-    budget: v => v > 1_500_000 ? '- Flag as luxury lead' : null,
-    zip: v => `- Pull comps for ${v}`,
-    timeline: v => v === '0-30' ? '- Priority: escalate within 1 hour' : null,
+    budget: (v) => (v > 1_500_000 ? '- Flag as luxury lead; white-glove tone.' : null),
+    zip: (v) => `- Anchor all market commentary to ZIP ${v}.`,
+    timeline: (v) => (v === '0-30' ? '- Priority: escalate to agent within 1 hour.' : null),
   },
+
+  exportFilename: (data) =>
+    `${(data.name || 'lead').replace(/\s+/g, '_')}_realestate_pro.json`,
 
   exportLead: (data, messages) => ({
     timestamp: new Date().toISOString(),
@@ -88,6 +125,8 @@ ${marketTip}
       budget: data.budget,
       timeline: data.timeline,
     },
-    conversation: messages.map(m => `${m.role === 'user' ? 'Client' : 'Astra'}: ${m.content}`).join('\n\n'),
+    conversation: messages
+      .map((m) => `${m.role === 'user' ? 'Client' : 'Astra'}: ${m.content}`)
+      .join('\n\n'),
   }),
 };

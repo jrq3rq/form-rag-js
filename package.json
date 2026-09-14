@@ -1,15 +1,24 @@
 {
   "name": "form-rag-js",
-  "version": "1.2.20",
+  "version": "2.0.0",
+  "type": "module",
   "description": "One AI form. Any small business. Powered by Grok.",
   "main": "dist/index.js",
   "module": "dist/index.js",
+  "types": "src/types/template.d.ts",
   "exports": {
-    ".": "./dist/index.js",
-    "./templates/pro": "./dist/templates/pro/index.js"
+    ".": {
+      "types": "./src/types/template.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./templates/pro": {
+      "import": "./dist/templates/pro/index.js"
+    },
+    "./styles.css": "./dist/components/FormRAG.css"
   },
   "files": [
-    "dist"
+    "dist",
+    "src/types"
   ],
   "keywords": [
     "ai",
@@ -27,18 +36,27 @@
   },
   "scripts": {
     "build": "babel src --out-dir dist --extensions \".js,.jsx\" --presets @babel/preset-react --copy-files && cp src/components/FormRAG.css dist/components/FormRAG.css",
-    "prepublishOnly": "npm run build",
-    "release": "npm run build && git add . && git commit -m \"feat(pro): add RealEstatePro + lead export + clean output\" && npm version patch -m \"Release v%s\" && git push && git push --tags && npm publish"
+    "bundle": "rollup -c",
+    "test": "node --test test/*.test.js",
+    "prepublishOnly": "npm run test && npm run build && npm run bundle",
+    "release": "npm run build && npm run bundle && git add . && git commit -m \"chore: rebuild dist\" && npm version patch -m \"Release v%s\" && git push && git push --tags && npm publish"
   },
   "devDependencies": {
     "@babel/cli": "^7.25.1",
     "@babel/core": "^7.25.2",
     "@babel/preset-env": "^7.25.3",
     "@babel/preset-react": "^7.24.7",
-    "babel-plugin-module-resolver": "^5.0.2"
+    "@rollup/plugin-commonjs": "^25.0.0",
+    "@rollup/plugin-node-resolve": "^15.0.0",
+    "@rollup/plugin-terser": "^0.4.4",
+    "babel-plugin-module-resolver": "^5.0.2",
+    "rollup": "^4.0.0"
   },
   "peerDependencies": {
-    "react": ">=16.8.0",
-    "react-dom": ">=16.8.0"
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0"
+  },
+  "dependencies": {
+    "form-rag-js": "^1.2.20"
   }
 }
